@@ -98,8 +98,17 @@ def get_complement(sequence):
     
     seq_comp=""
     for base in sequence_upper:
-        seq_comp += sequence_upper
-        if base in 
+        if base == "A":
+            seq_comp=seq_comp+"U"
+        elif base == "C":
+            seq_comp=seq_comp+"G"
+        elif base == "G":
+            seq_comp=seq_comp+"C"
+        elif base == "U":
+            seq_comp=seq_comp+"A"
+        elif base == "":
+            seq_comp=seq_comp+""
+    return seq_comp
 
 def reverse_and_complement(sequence):
     """Get the reversed and complemented form of a `sequence` of nucleotides.
