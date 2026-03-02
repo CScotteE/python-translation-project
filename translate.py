@@ -29,11 +29,23 @@ def translate_sequence(rna_sequence, genetic_code):
         A string of the translated amino acids.
     """
 
-    genetic_code = {'GUC': 'V', 'ACC': 'T', 'GUA': 'V', 'GUG': 'V', 'ACU': 'T', 'AAC': 'N', 'CCU': 'P', 'UGG': 'W', 'AGC': 'S', 'AUC': 'I', 'CAU': 'H', 'AAU': 'N', 'AGU': 'S', 'GUU': 'V', 'CAC': 'H','ACG': 'T', 'CCG': 'P', 'CCA': 'P', 'ACA': 'T', 'CCC': 'P', 'UGU': 'C', 'GGU': 'G', 'UCU': 'S', 'GCG': 'A', 'UGC': 'C', 'CAG': 'Q', 'GAU': 'D', 'UAU': 'Y', 'CGG': 'R', 'UCG': 'S', 'AGG': 'R', 'GGG': 'G', 'UCC': 'S', 'UCA': 'S', 'UAA': '*', 'GGA': 'G', 'UAC': 'Y', 'GAC': 'D', 'UAG': '*', 'AUA': 'I', 'GCA': 'A', 'CUU': 'L', 'GGC': 'G', 'AUG': 'M', 'CUG': 'L', 'GAG': 'E', 'CUC': 'L', 'AGA': 'R', 'CUA': 'L', 'GCC': 'A', 'AAA': 'K', 'AAG': 'K', 'CAA': 'Q', 'UUU': 'F', 'CGU': 'R', 'CGC': 'R', 'CGA': 'R', 'GCU': 'A', 'GAA': 'E', 'AUU': 'I', 'UUG': 'L', 'UUA': 'L', 'UGA': '*', 'UUC': 'F'}
-
-    AAcids=""
+    aa_translation=""
     rna_upper = rna_sequence.upper()
 
+    while True:
+        if len(rna_upper) >= 3:
+            codon = rna_upper[0:3]
+            remainder_seq = rna_upper[3:]
+            aa = genetic_code[codon]
+            rna_upper = remainder_seq
+        elif len(rna_upper) < 3:
+            break
+        if aa == '*':
+            break
+        else:
+            aa_translation = aa_translation + aa
+
+    return aa_translation
 
 def get_all_translations(rna_sequence, genetic_code):
     """Get a list of all amino acid sequences encoded by an RNA sequence.
@@ -66,7 +78,18 @@ def get_all_translations(rna_sequence, genetic_code):
         A list of strings; each string is an sequence of amino acids encoded by
         `rna_sequence`.
     """
-    pass
+
+    rna_upper = rna_sequence.upper()
+    num_nucleotides = len(rna_upper)
+    aa_trans_list = []
+
+    for base in range(num_nucleotides):
+        codon = rna_upper[base: base + 3]
+        if codon == 'AUG':
+            aa_translation = translate_sequence(rna_upper[base:], genetic_code)
+            aa_trans_list.append(aa_translation)
+    return aa_trans_list
+
 
 def get_reverse(sequence):
 
