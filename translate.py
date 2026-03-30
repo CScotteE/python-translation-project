@@ -194,7 +194,19 @@ def get_longest_peptide(rna_sequence, genetic_code):
         A string of the longest sequence of amino acids encoded by
         `rna_sequence`.
     """
-    pass
+   
+    aalist = get_all_translations(rna_sequence, genetic_code)
+    rev_comp = reverse_and_complement(rna_sequence)
+    rev_aalist = get_all_translations(rev_comp, genetic_code)
+
+    full_list = aalist + rev_aalist
+    
+    if not full_list:
+        return ""
+
+    longest_peptide = max(full_list, key=len)
+    
+    return longest_peptide
 
 
 if __name__ == '__main__':
